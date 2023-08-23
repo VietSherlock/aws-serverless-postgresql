@@ -1,0 +1,83 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+
+Globals:
+  Function:
+    Timeout: 30
+
+Resources:
+#  GetAllProductsFunction:
+#    Type: 'AWS::Serverless::Function'
+#    Properties:
+#      CodeUri: target/my-crud-service-1.0.0.jar
+#      Handler: com.serverless.handler.GetProductHandler::handleRequest
+#      Runtime: java17
+#      Events:
+#        GetAllProductsApi:
+#          Type: Api
+#          Properties:
+#            Path: /products
+#            Method: GET
+
+  GetProductByIdFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: target/aws-serverless-postgresql-1.0-SNAPSHOT.jar
+      Handler: com.serverless.handler.GetProductHandler::handleRequest
+      Runtime: java17
+      Events:
+        GetProductByIdApi:
+          Type: Api
+          Properties:
+            Path: /products/{id}
+            Method: GET
+
+  CreateProductFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: target/aws-serverless-postgresql-1.0-SNAPSHOT.jar
+      Handler: com.serverless.handler.CreateProductHandler::handleRequest
+      Runtime: java17
+      Events:
+        CreateProductApi:
+          Type: Api
+          Properties:
+            Path: /products
+            Method: POST
+
+  UpdateProductFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: target/aws-serverless-postgresql-1.0-SNAPSHOT.jar
+      Handler: com.serverless.handler.UpdateProductHandler::handleRequest
+      Runtime: java17
+      Events:
+        UpdateProductApi:
+          Type: Api
+          Properties:
+            Path: /products/{id}
+            Method: PUT
+
+  DeleteProductFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: target/aws-serverless-postgresql-1.0-SNAPSHOT.jar
+      Handler: com.serverless.handler.DeleteProductHandler::handleRequest
+      Runtime: java17
+      Events:
+        DeleteProductApi:
+          Type: Api
+          Properties:
+            Path: /products/{id}
+            Method: DELETE
+
+  MyRdsInstance:
+    Type: 'AWS::RDS::DBInstance'
+    Properties:
+      Engine: postgres
+      DBName: productdb2
+      MasterUsername: postgres
+      MasterUserPassword: 88888888
+      AllocatedStorage: 20
+      DBInstanceClass: db.t3.micro
+      BackupRetentionPeriod: 7
